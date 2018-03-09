@@ -15,9 +15,9 @@ const output = solc.compile(source, 1).contracts;
 fs.ensureDirSync(buildPath);
 
 // loop through all possible contracts and compile each
-for (let contract in output) {
+Object.keys(output).forEach(contract =>
   fs.outputJsonSync(
-    path.resolve(buildPath, `${contract}.json`),
+    path.resolve(buildPath, `${contract.slice(1)}.json`),
     output[contract],
-  );
-}
+  ),
+);
