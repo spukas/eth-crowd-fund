@@ -57,4 +57,17 @@ describe('Campaigns', () => {
 
     assert(isContributer);
   });
+
+  it('requires a minimum contribution', async () => {
+    try {
+      await campaign.methods.contribute().send({
+        value: '5',
+        from: accounts[1],
+      });
+    } catch (err) {
+      assert(err);
+      return;
+    }
+    assert(false);
+  });
 });
