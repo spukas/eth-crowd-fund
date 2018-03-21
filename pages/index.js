@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 
 class CampaignIndex extends Component {
@@ -11,16 +12,25 @@ class CampaignIndex extends Component {
     return { campaigns };
   }
 
-  renderCampaigns = () =>
-    this.props.campaigns.map(campaign => (
-      <li key={campaign}>{`Campaign active on: ${campaign}`}</li>
-    ));
+  renderCampaigns = () => {
+    const items = this.props.campaigns.map(campaign => ({
+      header: campaign,
+      description: 'Nice campaign',
+      fluid: true,
+    }));
+
+    return <Card.Group items={items} />;
+  };
 
   render() {
     return (
       <div>
+        <link
+          rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"
+        />
         Campaign list:
-        <ul>{this.renderCampaigns()}</ul>
+        {this.renderCampaigns()}
       </div>
     );
   }
