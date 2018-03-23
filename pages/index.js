@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
+import Layout from '../components/Layout';
 
 class CampaignIndex extends Component {
   // this is specific next.js method to load data on the server
@@ -26,7 +27,7 @@ class CampaignIndex extends Component {
 
   render() {
     return (
-      <div>
+      <Layout>
         <link
           rel="stylesheet"
           href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"
@@ -41,7 +42,7 @@ class CampaignIndex extends Component {
           primary
           onClick={this.handleClick}
         />
-      </div>
+      </Layout>
     );
   }
 }
