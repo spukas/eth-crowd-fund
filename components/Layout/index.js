@@ -1,21 +1,13 @@
 import React from 'react';
 import Header from '../Header';
+import { Container } from 'semantic-ui-react';
 
 const Layout = ({ children }) => (
-  <div className="layout--space">
+  <Container>
     <Header />
     {children}
     <h1>Footer</h1>
-
-    {/*
-      Styles goes here
-    */}
-    <style jsx>{`
-      .layout--space {
-        margin: 20px 40px;
-      }
-    `}</style>
-  </div>
+  </Container>
 );
 
 export default Layout;

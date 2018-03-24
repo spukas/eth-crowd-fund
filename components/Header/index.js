@@ -11,7 +11,7 @@ class Header extends Component {
     const isActive = name => activeItem === name;
 
     return (
-      <Menu>
+      <Menu style={{ marginTop: '20px' }}>
         <Menu.Item
           name="crowdCoin"
           active={isActive('crowdCoin')}
