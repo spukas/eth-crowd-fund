@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Message } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
@@ -9,6 +9,7 @@ class CampaignNew extends Component {
     minContribution: '',
     submitedContribution: '',
     submittedFromAccount: '',
+    errorMessage: '',
   };
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
@@ -17,16 +18,22 @@ class CampaignNew extends Component {
     event.preventDefault();
     const { minContribution } = this.state;
 
-    const accounts = await web3.eth.getAccounts();
-    await factory.methods
-      .createCampaign(minContribution)
-      .send({ from: accounts[0] });
+    // catch error
+    try {
+      const accounts = await web3.eth.getAccounts();
+      await factory.methods
+        .createCampaign(minContribution)
+        .send({ from: accounts[0] });
 
-    this.setState({
-      submitedContribution: minContribution,
-      submittedFromAccount: accounts[0],
-      minContribution: '',
-    });
+      this.setState({
+        submitedContribution: minContribution,
+        submittedFromAccount: accounts[0],
+        minContribution: '',
+        errorMessage: '',
+      });
+    } catch (error) {
+      this.setState({ errorMessage: error.message });
+    }
   };
 
   render() {
@@ -34,12 +41,13 @@ class CampaignNew extends Component {
       minContribution,
       submitedContribution,
       submittedFromAccount,
+      errorMessage,
     } = this.state;
 
     return (
       <Layout>
         <h3>Create new Campaign</h3>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} error={!!errorMessage}>
           <Form.Field>
             <label htmlFor="minContribution">Minimum contribution</label>
             <Input
@@ -50,6 +58,7 @@ class CampaignNew extends Component {
               onChange={this.handleChange}
             />
           </Form.Field>
+          <Message error header="Error encountered" content={errorMessage} />
           <Form.Button content="Create" primary />
         </Form>
         <strong>onChange:</strong>
@@ -57,7 +66,7 @@ class CampaignNew extends Component {
         <strong>onSubmit:</strong>
         <pre>
           {JSON.stringify(
-            { submitedContribution, submittedFromAccount },
+            { submitedContribution, submittedFromAccount, errorMessage },
             null,
             2,
           )}
