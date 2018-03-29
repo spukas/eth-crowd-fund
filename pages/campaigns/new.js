@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Message } from 'semantic-ui-react';
+import { Form, Button, Input, Message } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
@@ -10,6 +10,7 @@ class CampaignNew extends Component {
     submitedContribution: '',
     submittedFromAccount: '',
     errorMessage: '',
+    loading: false,
   };
 
   handleChange = (e, { name, value }) => this.setState({ [name]: value });
@@ -17,6 +18,8 @@ class CampaignNew extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { minContribution } = this.state;
+
+    this.setState({ loading: true, errorMessage: '' });
 
     // catch error
     try {
@@ -34,6 +37,8 @@ class CampaignNew extends Component {
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
+
+    this.setState({ loading: false });
   };
 
   render() {
@@ -42,6 +47,7 @@ class CampaignNew extends Component {
       submitedContribution,
       submittedFromAccount,
       errorMessage,
+      loading,
     } = this.state;
 
     return (
@@ -59,14 +65,19 @@ class CampaignNew extends Component {
             />
           </Form.Field>
           <Message error header="Error encountered" content={errorMessage} />
-          <Form.Button content="Create" primary />
+          <Button content="Create" primary loading={loading} />
         </Form>
-        <strong>onChange:</strong>
-        <pre>{JSON.stringify({ minContribution }, null, 2)}</pre>
-        <strong>onSubmit:</strong>
+
+        <strong>this.state:</strong>
         <pre>
           {JSON.stringify(
-            { submitedContribution, submittedFromAccount, errorMessage },
+            {
+              minContribution,
+              submitedContribution,
+              submittedFromAccount,
+              errorMessage,
+              loading,
+            },
             null,
             2,
           )}
