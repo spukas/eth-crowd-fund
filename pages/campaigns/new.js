@@ -3,12 +3,11 @@ import { Form, Button, Input, Message } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
+import { Router } from '../../routes';
 
 class CampaignNew extends Component {
   state = {
     minContribution: '',
-    submitedContribution: '',
-    submittedFromAccount: '',
     errorMessage: '',
     loading: false,
   };
@@ -28,12 +27,8 @@ class CampaignNew extends Component {
         .createCampaign(minContribution)
         .send({ from: accounts[0] });
 
-      this.setState({
-        submitedContribution: minContribution,
-        submittedFromAccount: accounts[0],
-        minContribution: '',
-        errorMessage: '',
-      });
+      // after new campaign is created, redirect user to main page
+      Router.pushRoute('/');
     } catch (error) {
       this.setState({ errorMessage: error.message });
     }
@@ -42,13 +37,7 @@ class CampaignNew extends Component {
   };
 
   render() {
-    const {
-      minContribution,
-      submitedContribution,
-      submittedFromAccount,
-      errorMessage,
-      loading,
-    } = this.state;
+    const { minContribution, errorMessage, loading } = this.state;
 
     return (
       <Layout>
@@ -67,21 +56,6 @@ class CampaignNew extends Component {
           <Message error header="Error encountered" content={errorMessage} />
           <Button content="Create" primary loading={loading} />
         </Form>
-
-        <strong>this.state:</strong>
-        <pre>
-          {JSON.stringify(
-            {
-              minContribution,
-              submitedContribution,
-              submittedFromAccount,
-              errorMessage,
-              loading,
-            },
-            null,
-            2,
-          )}
-        </pre>
       </Layout>
     );
   }

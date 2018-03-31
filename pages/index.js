@@ -16,7 +16,7 @@ class CampaignIndex extends Component {
   renderCampaigns = () => {
     const items = this.props.campaigns.map(campaign => ({
       header: campaign,
-      description: 'Nice campaign',
+      description: 'View campaign',
       fluid: true,
     }));
 
