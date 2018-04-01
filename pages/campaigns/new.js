@@ -40,7 +40,7 @@ class CampaignNew extends Component {
     const { minContribution, errorMessage, loading } = this.state;
 
     return (
-      <Layout>
+      <Layout pageName="newCampaign">
         <h3>Create new Campaign</h3>
         <Form onSubmit={this.handleSubmit} error={!!errorMessage}>
           <Form.Field>

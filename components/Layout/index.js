@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Header from '../Header';
 import { Container } from 'semantic-ui-react';
 
-const Layout = ({ children }) => (
+const Layout = ({ children, pageName }) => (
   <Container>
     {/* Populate html head element */}
     <Head>
@@ -16,7 +16,7 @@ const Layout = ({ children }) => (
       />
     </Head>
 
-    <Header />
+    <Header pageName={pageName} />
     {children}
   </Container>
 );

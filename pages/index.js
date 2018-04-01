@@ -27,7 +27,7 @@ class CampaignIndex extends Component {
 
   render() {
     return (
-      <Layout>
+      <Layout pageName="campaigns">
         <h3>Open Campaigns</h3>
         <Button
           content="Create Campaign"
