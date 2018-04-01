@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button } from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import Layout from '../components/Layout';
+import { Link } from '../routes';
 
 class CampaignIndex extends Component {
   // this is specific next.js method to load data on the server
@@ -16,27 +17,33 @@ class CampaignIndex extends Component {
   renderCampaigns = () => {
     const items = this.props.campaigns.map(campaign => ({
       header: campaign,
-      description: 'View campaign',
+      description: (
+        <Link route={`campaigns/${campaign}`}>
+          <a>View campaign</a>
+        </Link>
+      ),
       fluid: true,
     }));
 
     return <Card.Group items={items} />;
   };
 
-  handleClick = () => console.log('click');
-
   render() {
     return (
-      <Layout pageName="campaigns">
+      <Layout pageName="CrowdCoin - Campaigns">
         <h3>Open Campaigns</h3>
-        <Button
-          content="Create Campaign"
-          icon="add circle"
-          labelPosition="right"
-          primary
-          floated="right"
-          onClick={this.handleClick}
-        />
+
+        <Link route="campaigns/new">
+          <a>
+            <Button
+              content="Create Campaign"
+              icon="add circle"
+              labelPosition="right"
+              floated="right"
+              primary
+            />
+          </a>
+        </Link>
         {this.renderCampaigns()}
       </Layout>
     );

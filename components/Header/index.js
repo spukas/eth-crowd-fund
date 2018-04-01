@@ -10,16 +10,22 @@ class Header extends Component {
     return (
       <Menu style={{ marginTop: '20px' }} pointing>
         <Link route="/">
-          <Menu.Item active={isActive('crowdCoin')}>CrowdCoin</Menu.Item>
+          <Menu.Item active={isActive('CrowdCoin - Campaigns')}>
+            CrowdCoin
+          </Menu.Item>
         </Link>
 
         <Menu.Menu position="right">
           <Link route="/">
-            <Menu.Item active={isActive('campaigns')}>Campaigns</Menu.Item>
+            <Menu.Item active={isActive('CrowdCoin - Campaigns')}>
+              Campaigns
+            </Menu.Item>
           </Link>
 
           <Link route="campaigns/new">
-            <Menu.Item active={isActive('newCampaign')}>+</Menu.Item>
+            <Menu.Item active={isActive('CrowdCoin - Create new campaign')}>
+              +
+            </Menu.Item>
           </Link>
         </Menu.Menu>
       </Menu>
