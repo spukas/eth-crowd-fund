@@ -13,6 +13,7 @@
     "mocha": "^5.0.4",
     "next": "^5.1.0",
     "next-routes": "^1.4.1",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "semantic-ui-css": "^2.3.1",

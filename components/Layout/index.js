@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Head from 'next/head';
 import Header from '../Header';
 import { Container } from 'semantic-ui-react';
@@ -20,5 +21,14 @@ const Layout = ({ children, pageName }) => (
     {children}
   </Container>
 );
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  pageName: PropTypes.string,
+};
+
+Layout.defaultProps = {
+  pageName: 'CrowdCoin',
+};
 
 export default Layout;
