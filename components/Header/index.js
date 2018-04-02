@@ -10,9 +10,7 @@ class Header extends Component {
     return (
       <Menu style={{ marginTop: '20px' }} pointing>
         <Link route="/">
-          <Menu.Item active={isActive('CrowdCoin - Campaigns')}>
-            CrowdCoin
-          </Menu.Item>
+          <Menu.Item>CrowdCoin</Menu.Item>
         </Link>
 
         <Menu.Menu position="right">
