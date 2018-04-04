@@ -12,10 +12,15 @@ class CampaignShow extends Component {
   static async getInitialProps(props) {
     const campaign = Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
-    console.log('summary: ', summary);
 
     // return an object that will be passed as props to the component
-    return { campaign };
+    return {
+      minimumContribution: summary[0],
+      balance: summary[1],
+      requests: summary[2],
+      approversCount: summary[3],
+      manager: summary[4],
+    };
   }
 
   state = {};
