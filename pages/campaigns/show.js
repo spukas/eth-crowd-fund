@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Card } from 'semantic-ui-react'
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import Campaign from '../../ethereum/campaign';
@@ -17,19 +18,36 @@ class CampaignShow extends Component {
     return {
       minimumContribution: summary[0],
       balance: summary[1],
-      requests: summary[2],
+      requestsCount: summary[2],
       approversCount: summary[3],
       manager: summary[4],
     };
   }
 
-  state = {};
+  renderCards = () => {
+    const {
+      minimumContribution,
+      balance,
+      requestsCount,
+      approversCount,
+      manager,
+    } = this.props;
+
+    const items = [{
+      header: manager,
+      meta: 'Address of manager',
+      description: 'By creating request, manager can withdraw money',
+      style: { overflowWrap: 'break-word' }
+    }];
+
+    return <Card.Group items={items} />
+  }
 
   render() {
     return (
       <Layout pageName="CrowdCoin - Campaign">
-        <h1>CampaignShow Component</h1>
-        <pre>{JSON.stringify(this.props.campaignStats, null, 2)}</pre>
+        <h3>CampaignShow Component</h3>
+        {this.renderCards()}
       </Layout>
     );
   }
