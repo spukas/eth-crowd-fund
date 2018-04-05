@@ -4,6 +4,7 @@ import { Card } from 'semantic-ui-react'
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import Campaign from '../../ethereum/campaign';
+import web3 from '../../ethereum/web3';
 
 class CampaignShow extends Component {
   static propTypes = {};
@@ -33,12 +34,34 @@ class CampaignShow extends Component {
       manager,
     } = this.props;
 
-    const items = [{
-      header: manager,
-      meta: 'Address of manager',
-      description: 'By creating request, manager can withdraw money',
-      style: { overflowWrap: 'break-word' }
-    }];
+    const items = [
+      {
+        header: manager,
+        meta: 'Address of manager',
+        description: 'By creating request, manager can withdraw money',
+        style: { overflowWrap: 'break-word' }
+      },
+      {
+        header: minimumContribution,
+        meta: 'Minimum contribution (wei)',
+        description: 'You must contribute at least this much to become an approver',
+      },
+      {
+        header: requestsCount,
+        meta: 'Number of requests',
+        description: 'A request tries to withdraw money from the contract. Requests must be approved by approvers',
+      },
+      {
+        header: approversCount,
+        meta: 'Number of approvers',
+        description: 'Number of people who donated to this campaign',
+      },
+      {
+        header: web3.utils.fromWei(balance, 'ether'),
+        meta: 'Campaign balance (ether)',
+        description: 'Balance of how much money this campaign left to spend',
+      },
+    ];
 
     return <Card.Group items={items} />
   }
