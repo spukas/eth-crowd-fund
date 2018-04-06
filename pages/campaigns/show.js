@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react'
 import Layout from '../../components/Layout';
+import ContributeForm from '../../components/ContributeForm';
 import factory from '../../ethereum/factory';
 import Campaign from '../../ethereum/campaign';
 import web3 from '../../ethereum/web3';
@@ -71,6 +72,7 @@ class CampaignShow extends Component {
       <Layout pageName="CrowdCoin - Campaign">
         <h3>CampaignShow Component</h3>
         {this.renderCards()}
+        <ContributeForm />
       </Layout>
     );
   }
