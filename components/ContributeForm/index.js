@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Message } from 'semantic-ui-react';
+// import factory from '../../ethereum/factory';
+// import web3 from '../../ethereum/web3';
+import Campaign from '../../ethereum/campaign';
 
 class ContributeForm extends Component {
     state = {
@@ -8,7 +11,10 @@ class ContributeForm extends Component {
         loading: false,
     };
 
-    handleSubmit = () => {};
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const campaign = Campaign(this.props.address);
+    };
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 

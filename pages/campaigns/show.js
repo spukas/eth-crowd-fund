@@ -18,6 +18,7 @@ class CampaignShow extends Component {
 
         // return an object that will be passed as props to the component
         return {
+            address: props.query.address,
             minimumContribution: summary[0],
             balance: summary[1],
             requestsCount: summary[2],
@@ -70,7 +71,7 @@ class CampaignShow extends Component {
                     <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
 
                     <Grid.Column width={6}>
-                        <ContributeForm />
+                        <ContributeForm campaignAddress={this.props.address} />
                     </Grid.Column>
                 </Grid>
             </Layout>
