@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Message } from 'semantic-ui-react';
-// import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
 import Campaign from '../../ethereum/campaign';
-
+import { Router } from '../../routes';
 class ContributeForm extends Component {
     state = {
         amount: '',
@@ -13,7 +12,9 @@ class ContributeForm extends Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const campaign = Campaign(this.props.campaignAddress);
+
+        const { campaignAddress } = this.props;
+        const campaign = Campaign(campaignAddress);
 
         try {
             const accounts = await web3.eth.getAccounts();
@@ -21,6 +22,9 @@ class ContributeForm extends Component {
                 from: accounts[0],
                 value: web3.utils.toWei(this.state.amount, 'ether'),
             });
+            
+            // Refresh page to load new - changed data
+            Router.replaceRoute(`/campaigns/${campaignAddress}`);
         } catch (error) {
             
         }
