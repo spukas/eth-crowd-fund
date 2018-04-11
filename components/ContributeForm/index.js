@@ -16,6 +16,9 @@ class ContributeForm extends Component {
         const { campaignAddress } = this.props;
         const campaign = Campaign(campaignAddress);
 
+        // Handle loading spinner, clear previous error messages
+        this.setState({ loading: true, errorMessage: '' });
+
         try {
             const accounts = await web3.eth.getAccounts();
             await campaign.methods.contribute().send({
@@ -26,9 +29,9 @@ class ContributeForm extends Component {
             // Refresh page to load new - changed data
             Router.replaceRoute(`/campaigns/${campaignAddress}`);
         } catch (error) {
-            
+            this.setState({ errorMessage: error.message });
         }
-        this.setState({ amount: '' });
+        this.setState({ amount: '', loading: false });
     };
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
