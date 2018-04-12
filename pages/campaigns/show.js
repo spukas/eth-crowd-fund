@@ -60,7 +60,6 @@ class CampaignShow extends Component {
                 description: 'Balance of how much money this campaign left to spend',
             },
         ];
-
         return <Card.Group items={items} />;
     };
 
@@ -70,18 +69,23 @@ class CampaignShow extends Component {
             <Layout pageName="CrowdCoin - Campaign">
                 <h3>Campaign info</h3>
                 <Grid>
-                    <Grid.Column width={10}>{
-                        this.renderCards()}
-                        <Link route={`/campaigns/${address}/requests`}>
-                            <a>
-                                <Button primary content="Requests" />
-                            </a>
-                        </Link>
-                    </Grid.Column>
+                    <Grid.Row>
+                        <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
 
-                    <Grid.Column width={6}>
-                        <ContributeForm campaignAddress={this.props.address} />
-                    </Grid.Column>
+                        <Grid.Column width={6}>
+                            <ContributeForm campaignAddress={this.props.address} />
+                        </Grid.Column>
+                    </Grid.Row>
+
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Link route={`/campaigns/${address}/requests`}>
+                                <a>
+                                    <Button primary content="Requests" />
+                                </a>
+                            </Link>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Grid>
             </Layout>
         );
