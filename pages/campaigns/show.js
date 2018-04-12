@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Grid } from 'semantic-ui-react';
+import { Card, Grid, Button } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import ContributeForm from '../../components/ContributeForm';
 import factory from '../../ethereum/factory';
 import Campaign from '../../ethereum/campaign';
 import web3 from '../../ethereum/web3';
+import { Link } from '../../routes';
 
 class CampaignShow extends Component {
     static propTypes = {};
@@ -64,11 +65,19 @@ class CampaignShow extends Component {
     };
 
     render() {
+        const { address } = this.props;
         return (
             <Layout pageName="CrowdCoin - Campaign">
                 <h3>Campaign info</h3>
                 <Grid>
-                    <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
+                    <Grid.Column width={10}>{
+                        this.renderCards()}
+                        <Link route={`/campaigns/${address}/requests`}>
+                            <a>
+                                <Button primary content="Requests" />
+                            </a>
+                        </Link>
+                    </Grid.Column>
 
                     <Grid.Column width={6}>
                         <ContributeForm campaignAddress={this.props.address} />
