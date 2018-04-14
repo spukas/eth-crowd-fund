@@ -4,18 +4,16 @@ import Layout from '../../../components/Layout';
 import Campaign from '../../../ethereum/campaign';
 import web3 from '../../../ethereum/web3';
 import { Link } from '../../../routes';
+import { Router } from '../../../routes';
 
 export default class NewRequest extends Component {
     static async getInitialProps({ query: { address } }) {
-        const campaign = await Campaign(address);
-        
-
         return { address };
     }
 
     state = {
         description: '',
-        amount: '',
+        value: '',
         recipient: '',
         errorMessage: '',
         loading: false,
@@ -23,16 +21,31 @@ export default class NewRequest extends Component {
 
     handleInputChange = (event, { name, value }) => this.setState({ [name]: value });
 
-    handleFormSubmit = async (event) => {
+    handleFormSubmit = async event => {
         event.preventDefault();
-        const { description, amount, recipient } = this.state;
+        const { description, value, recipient } = this.state;
+        const { address } = this.props;
+        const campaign = await Campaign(address);
 
+        this.setState({ loading: true, errorMessage: '' });
 
+        try {
+            const accounts = await web3.eth.getAccounts();
+            await campaign.methods.createRequest(description, web3.utils.toWei(value, 'ether'), recipient).send({
+                from: accounts[0],
+            });
+
+            Router.pushRoute(`/campaigns/${address}/requests`);
+        } catch (error) {
+            this.setState({ errorMessage: error.message });
+        }
+
+        this.setState({ loading: false });
     };
 
     render() {
-        const { description, amount, recipient, errorMessage, loading } = this.state;
-        
+        const { description, value, recipient, errorMessage, loading } = this.state;
+
         return (
             <Layout>
                 <h3>New Request</h3>
@@ -47,8 +60,8 @@ export default class NewRequest extends Component {
                     </Form.Field>
 
                     <Form.Field>
-                        <label>Amount</label>
-                        <Input name="amount" value={amount} onChange={this.handleInputChange} />
+                        <label>value</label>
+                        <Input name="value" value={value} onChange={this.handleInputChange} />
                     </Form.Field>
 
                     <Form.Field>
