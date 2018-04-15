@@ -40,28 +40,30 @@ export default class RequestsIndex extends Component {
         const { approvers } = this.props;
         return this.props.requests.map(
             ({ description, value, recipient, approvalCount, complete }, index) => (
-                <Row key={`${index}-${description}`}>
+                <Row key={`${index}-${description}`} disabled={complete}>
                     <Cell>{index}</Cell>
                     <Cell>{description}</Cell>
                     <Cell>{web3.utils.fromWei(value, 'ether')}</Cell>
                     <Cell>{recipient}</Cell>
                     <Cell>{`${approvalCount} / ${approvers}`}</Cell>
-                    <Cell>
-                        <Button
-                            color="green"
-                            basic
-                            content="Approve"
-                            onClick={this.handleApprove(index)}
-                        />
-                    </Cell>
-                    <Cell>
-                        <Button
-                            color="red"
-                            basic
-                            content="Finalize"
-                            onClick={this.handleFinalize(index)}
-                        />
-                    </Cell>
+                    {!complete && [
+                        <Cell>
+                            <Button
+                                color="green"
+                                basic
+                                content="Approve"
+                                onClick={this.handleApprove(index)}
+                            />
+                        </Cell>,
+                        <Cell>
+                            <Button
+                                color="red"
+                                basic
+                                content="Finalize"
+                                onClick={this.handleFinalize(index)}
+                            />
+                        </Cell>,
+                    ]}
                 </Row>
             ),
         );
@@ -95,7 +97,7 @@ export default class RequestsIndex extends Component {
 
                 <Link route={`/campaigns/${address}/requests/new`}>
                     <a>
-                        <Button primary content="Add Rrequest" />
+                        <Button primary floated="right" content="Add Rrequest" />
                     </a>
                 </Link>
             </Layout>
