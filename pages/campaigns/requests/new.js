@@ -45,9 +45,13 @@ export default class NewRequest extends Component {
 
     render() {
         const { description, value, recipient, errorMessage, loading } = this.state;
+        const { address } = this.props;
 
         return (
             <Layout>
+                <Link route={`/campaigns/${address}/requests`}>
+                    <a>Go back</a>
+                </Link>
                 <h3>New Request</h3>
                 <Form onSubmit={this.handleFormSubmit} error={!!errorMessage}>
                     <Form.Field>
