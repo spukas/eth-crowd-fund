@@ -16,8 +16,24 @@ export default class RequestsIndex extends Component {
             [...Array(parseInt(requestsCount))].map((_, index) => getRequests(index).call()),
         );
 
-        return { address, requests, requestsCount, approvers };
+        return { address, requests, requestsCount, approvers, campaign };
     }
+
+    handleApprove = index => async () => {
+        const campaign = Campaign(this.props.address);
+        const accounts = await web3.eth.getAccounts();
+        await campaign.methods.approveRequest(index).send({
+            from: accounts[0],
+        });
+    };
+
+    handleFinalize = index => async () => {
+        const campaign = Campaign(this.props.address);
+        const accounts = await web3.eth.getAccounts();
+        await campaign.methods.finalizeRequest(index).send({
+            from: accounts[0],
+        });
+    };
 
     renderRequests = () => {
         const { Row, Cell } = Table;
@@ -25,16 +41,26 @@ export default class RequestsIndex extends Component {
         return this.props.requests.map(
             ({ description, value, recipient, approvalCount, complete }, index) => (
                 <Row key={`${index}-${description}`}>
-                    <Cell>{index + 1}</Cell>
+                    <Cell>{index}</Cell>
                     <Cell>{description}</Cell>
                     <Cell>{web3.utils.fromWei(value, 'ether')}</Cell>
                     <Cell>{recipient}</Cell>
                     <Cell>{`${approvalCount} / ${approvers}`}</Cell>
                     <Cell>
-                        <Button primary content="Approve" />
+                        <Button
+                            color="green"
+                            basic
+                            content="Approve"
+                            onClick={this.handleApprove(index)}
+                        />
                     </Cell>
                     <Cell>
-                        <Button primary content="Finalize" />
+                        <Button
+                            color="red"
+                            basic
+                            content="Finalize"
+                            onClick={this.handleFinalize(index)}
+                        />
                     </Cell>
                 </Row>
             ),
