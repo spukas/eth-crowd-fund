@@ -20,7 +20,7 @@ class Header extends Component {
             </Menu.Item>
           </Link>
 
-          <Link route="campaigns/new">
+          <Link route="/campaigns/new">
             <Menu.Item active={isActive('CrowdCoin - Create new campaign')}>
               +
             </Menu.Item>

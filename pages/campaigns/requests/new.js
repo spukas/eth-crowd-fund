@@ -5,6 +5,7 @@ import Campaign from '../../../ethereum/campaign';
 import web3 from '../../../ethereum/web3';
 import { Link } from '../../../routes';
 import { Router } from '../../../routes';
+import GoBack from '../../../components/GoBack';
 
 export default class NewRequest extends Component {
     static async getInitialProps({ query: { address } }) {
@@ -49,9 +50,7 @@ export default class NewRequest extends Component {
 
         return (
             <Layout>
-                <Link route={`/campaigns/${address}/requests`}>
-                    <a>Go back</a>
-                </Link>
+                <GoBack route={`/campaigns/${address}/requests`} />
                 <h3>New Request</h3>
                 <Form onSubmit={this.handleFormSubmit} error={!!errorMessage}>
                     <Form.Field>

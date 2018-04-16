@@ -4,61 +4,61 @@ import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
 import { Router } from '../../routes';
+import GoBack from '../../components/GoBack';
 
 class CampaignNew extends Component {
-  state = {
-    minContribution: '',
-    errorMessage: '',
-    loading: false,
-  };
+    state = {
+        minContribution: '',
+        errorMessage: '',
+        loading: false,
+    };
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+    handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
-  handleSubmit = async event => {
-    event.preventDefault();
-    const { minContribution } = this.state;
+    handleSubmit = async event => {
+        event.preventDefault();
+        const { minContribution } = this.state;
 
-    this.setState({ loading: true, errorMessage: '' });
+        this.setState({ loading: true, errorMessage: '' });
 
-    // catch error
-    try {
-      const accounts = await web3.eth.getAccounts();
-      await factory.methods
-        .createCampaign(minContribution)
-        .send({ from: accounts[0] });
+        // catch error
+        try {
+            const accounts = await web3.eth.getAccounts();
+            await factory.methods.createCampaign(minContribution).send({ from: accounts[0] });
 
-      // after new campaign is created, redirect user to main page
-      Router.pushRoute('/');
-    } catch (error) {
-      this.setState({ errorMessage: error.message });
+            // after new campaign is created, redirect user to main page
+            Router.pushRoute('/');
+        } catch (error) {
+            this.setState({ errorMessage: error.message });
+        }
+
+        this.setState({ loading: false });
+    };
+
+    render() {
+        const { minContribution, errorMessage, loading } = this.state;
+
+        return (
+            <Layout pageName="CrowdCoin - Create new campaign">
+                <GoBack route="/" />
+                <h3>Create new Campaign</h3>
+                <Form onSubmit={this.handleSubmit} error={!!errorMessage}>
+                    <Form.Field>
+                        <label htmlFor="minContribution">Minimum contribution</label>
+                        <Input
+                            label="wei"
+                            labelPosition="right"
+                            name="minContribution"
+                            value={minContribution}
+                            onChange={this.handleChange}
+                        />
+                    </Form.Field>
+                    <Message error header="Error encountered" content={errorMessage} />
+                    <Button content="Create" primary loading={loading} />
+                </Form>
+            </Layout>
+        );
     }
-
-    this.setState({ loading: false });
-  };
-
-  render() {
-    const { minContribution, errorMessage, loading } = this.state;
-
-    return (
-      <Layout pageName="CrowdCoin - Create new campaign">
-        <h3>Create new Campaign</h3>
-        <Form onSubmit={this.handleSubmit} error={!!errorMessage}>
-          <Form.Field>
-            <label htmlFor="minContribution">Minimum contribution</label>
-            <Input
-              label="wei"
-              labelPosition="right"
-              name="minContribution"
-              value={minContribution}
-              onChange={this.handleChange}
-            />
-          </Form.Field>
-          <Message error header="Error encountered" content={errorMessage} />
-          <Button content="Create" primary loading={loading} />
-        </Form>
-      </Layout>
-    );
-  }
 }
 
 export default CampaignNew;

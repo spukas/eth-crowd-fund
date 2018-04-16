@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Table } from 'semantic-ui-react';
 import Layout from '../../../components/Layout';
 import { Link } from '../../../routes';
 import Campaign from '../../../ethereum/campaign';
 import web3 from '../../../ethereum/web3';
+import GoBack from '../../../components/GoBack';
 
 export default class RequestsIndex extends Component {
     static async getInitialProps({ query: { address } }) {
         const campaign = Campaign(address);
-        const { methods: { getRequestCount, requests: getRequests, approversCount } } = campaign;
+        const {
+            methods: { getRequestCount, requests: getRequests, approversCount },
+        } = campaign;
         const requestsCount = await getRequestCount().call();
         const approvers = await approversCount().call();
 
@@ -46,24 +49,26 @@ export default class RequestsIndex extends Component {
                     <Cell>{web3.utils.fromWei(value, 'ether')}</Cell>
                     <Cell>{recipient}</Cell>
                     <Cell>{`${approvalCount} / ${approvers}`}</Cell>
-                    {!complete && [
-                        <Cell>
-                            <Button
-                                color="green"
-                                basic
-                                content="Approve"
-                                onClick={this.handleApprove(index)}
-                            />
-                        </Cell>,
-                        <Cell>
-                            <Button
-                                color="red"
-                                basic
-                                content="Finalize"
-                                onClick={this.handleFinalize(index)}
-                            />
-                        </Cell>,
-                    ]}
+                    {!complete && (
+                        <Fragment>
+                            <Cell key="1">
+                                <Button
+                                    color="green"
+                                    basic
+                                    content="Approve"
+                                    onClick={this.handleApprove(index)}
+                                />
+                            </Cell>
+                            <Cell>
+                                <Button
+                                    color="red"
+                                    basic
+                                    content="Finalize"
+                                    onClick={this.handleFinalize(index)}
+                                />
+                            </Cell>
+                        </Fragment>
+                    )}
                 </Row>
             ),
         );
@@ -74,11 +79,8 @@ export default class RequestsIndex extends Component {
 
         return (
             <Layout>
-                <Link route={`/campaigns/${address}`}>
-                    <a>Go back</a>
-                </Link>
+                <GoBack route={`/campaigns/${address}`} />
                 <h3>Requests List</h3>
-
                 <Table celled>
                     <Header>
                         <Row>

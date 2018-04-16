@@ -7,6 +7,7 @@ import factory from '../../ethereum/factory';
 import Campaign from '../../ethereum/campaign';
 import web3 from '../../ethereum/web3';
 import { Link } from '../../routes';
+import GoBack from '../../components/GoBack';
 
 class CampaignShow extends Component {
     static propTypes = {};
@@ -67,6 +68,7 @@ class CampaignShow extends Component {
         const { address } = this.props;
         return (
             <Layout pageName="CrowdCoin - Campaign">
+                <GoBack route="/" />
                 <h3>Campaign info</h3>
                 <Grid>
                     <Grid.Row>
